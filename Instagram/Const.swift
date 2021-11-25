@@ -8,6 +8,6 @@
 import Foundation
 
 struct Const {
-    static let ImagePath = "images"
-    static let PostPath = "posts"
+    static let ImagePath = "images"  //Firestoreに「images」フォルダを
+    static let PostPath = "posts"  //Firestoreに「posts」フォルダを
 }
