@@ -38,7 +38,12 @@ class PostTableViewCell: UITableViewCell {
         let imageRef = Storage.storage().reference().child(Const.ImagePath).child(postData.id + ".jpg")
         postImageView.sd_setImage(with: imageRef)
         // キャプションの表示
-        captionLabel.text = "\(postData.name!) : \(postData.caption!)"
+        if postData.caption != nil{
+            captionLabel.text = "\(postData.name!) : \(postData.caption!)"
+        }else{
+            print("DEBUG_PRINT: nameかcaptionがnilです")
+        }
+        
         // 日時の表示
         dateLabel.text = ""
         if let date = postData.date{

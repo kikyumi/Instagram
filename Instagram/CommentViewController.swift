@@ -20,19 +20,20 @@ class CommentViewController: UIViewController {
     @IBAction func commentPostButton(_ sender: Any) {
         // FireStoreに投稿データを保存する
         //コメントを格納するFirebaseの保管場所を定義
-        let postRef = Firestore.firestore().collection(Const.PostPath).document(postDataRecieved!.id).collection("commentCollection").document()
-        let name = Auth.auth().currentUser?.displayName
-        let commentDic = [
-            "name": name!,
-            "commentText": commentTextView.text!,
-            "date": FieldValue.serverTimestamp(),
-        ] as [String: Any]
- 
+        let postRef = Firestore.firestore().collection(Const.PostPath).document(postDataRecieved!.id)
+
         // HUDで投稿処理中の表示を開始
         SVProgressHUD.show()
         
         //コメント投稿
-        postRef.setData(commentDic)
+        //もしcommentTextが存在しなければ、新しくセット
+        if postDataRecieved?.commentText == nil{
+            postRef.updateData(["commentText": commentTextView.text!])
+        }else{
+            //もし既にcommentTextが存在すれば、arryUnionで配列に追加
+            postRef.updateData(["commentText": FieldValue.arrayUnion([commentTextView.text!])])
+        }
+
         
         // HUDで投稿完了を表示する
         SVProgressHUD.showSuccess(withStatus: "投稿しました！")
@@ -50,9 +51,6 @@ class CommentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        
     }
 
     /*
