@@ -15,7 +15,7 @@ class PostData: NSObject {
     var date: Date?
     var likes: [String] = []
     var isLiked: Bool = false
-    var commentText: String?
+    var commentText: [String] = []
     
     init(document: QueryDocumentSnapshot){
         id = document.documentID   //documentIDプロパティは、個別に生成された投稿IDのこと
@@ -23,7 +23,11 @@ class PostData: NSObject {
         let postDic = document.data()    //data()メソッドで「辞書形式」のデータを取り出せる
         name = postDic["name"] as? String
         caption = postDic["caption"] as? String
-        commentText = postDic["commentText"] as? String
+        
+        if postDic["commentText"] as? [String] != nil {
+            commentText = (postDic["commentText"] as? [String])!
+        }
+        
         
         let timestamp = postDic["date"] as? Timestamp
         date = timestamp?.dateValue()

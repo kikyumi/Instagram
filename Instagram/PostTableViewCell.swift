@@ -66,7 +66,8 @@ class PostTableViewCell: UITableViewCell {
         
         //■■■■■■コメントの表示■■■■■■
         if postData.commentText != nil {
-            commentLabel.text = "\(postData.name!) : \(postData.commentText!)"
+            commentLabel.text = "\(postData.name!) : \(postData.commentText)"
+            commentLabel.textColor = .gray
         }else{
             commentLabel.text = "コメントはありません"
             commentLabel.textColor = .gray
